@@ -1,0 +1,33 @@
+{
+  "name": "s08-245.bharr.is",
+  "version": "0.1.0",
+  "private": true,
+  "description": "FT245-JTAG emulator for S08JS series",
+  "homepage": "https://github.com/bharrisau/s08-245",
+  "keywords": [
+    "jtag"
+  ],
+  "author": "Ben Harris <mail@bharr.is> (http://www.bharr.is)",
+  "maintainers": [
+    "Ben Harris <mail@bharr.is> (http://www.bharr.is)"
+  ],
+  "contributors": [
+    "Ben Harris <mail@bharr.is> (http://www.bharr.is)"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bharrisau/s08-245.git"
+  },
+  "engines": {
+    "node": "0.8.x",
+    "npm": "1.1.x"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "mocha": "1.9.x",
+    "grunt": "~0.4.1",
+    "grunt-shell": "~0.2.2",
+    "grunt-contrib-watch": "~0.4.0",
+    "should": "~1.2.2"
+  }
+}

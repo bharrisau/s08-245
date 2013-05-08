@@ -1,0 +1,1 @@
+emcc -s INVOKE_RUN=0 -s LINKABLE=1 --post-js post.js -s NAMED_GLOBALS=1 -s EXPORT_ALL=1 --js-library library.js main.c
