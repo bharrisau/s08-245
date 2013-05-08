@@ -17,12 +17,13 @@ module.exports = (grunt) ->
           stdout: false
           callback: cLintCB
       srcLint:
-        command: 'splint -maintype src/*.c'
+        command: 'splint -maintype -type src/*.c'
         options:
           stdout: true
           failOnError: true
       compile:
-        command: 'emcc src/main.c -o js/app.js -s INVOKE_RUN=0 -s LINKABLE=1
+        command: 'emcc src/main.c src/init.c
+         -o js/app.js -s INVOKE_RUN=0 -s LINKABLE=1
          --post-js util/post.js -s NAMED_GLOBALS=1 -s EXPORT_ALL=1
           --js-library util/library.js'
         options:
