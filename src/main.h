@@ -1,4 +1,8 @@
-#ifndef __SDCC
+#ifdef __SDCC
+// const unsigned char __at(0xFFB8) CHECKSUM_HOLD_HIGH = 0x00;
+// const unsigned char __at(0xFFB9) CHECKSUM_HOLD_LOW = 0x00;
+// const unsigned char __at(0xFFBA) CHECKSUM_BYPASS = 0xFF;
+#else
 #define __at(x)
 #define __data
 #define __xdata

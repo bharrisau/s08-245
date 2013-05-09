@@ -43,7 +43,7 @@ module.exports = (grunt) ->
           failOnError: true
       sdcc2_8:
         command:
-          'sdcc -o bin/S08JS8.out -ms08 --data-loc 0x80 --xram-loc 0x0100
+          'sdcc -o bin/S08JS8 -ms08 --data-loc 0x80 --xram-loc 0x0100
           --xram-size 0x0180 --code-loc 0xE400 --code-size 0x1C00 ' +
           files.map (a) ->
             'bin/' + a + '.rel'
@@ -54,7 +54,7 @@ module.exports = (grunt) ->
           failOnError: true
       sdcc2_16:
         command:
-          'sdcc -o bin/S08JS16.out -ms08 --data-loc 0x80 --xram-loc 0x0100
+          'sdcc -o bin/S08JS16 -ms08 --data-loc 0x80 --xram-loc 0x0100
           --xram-size 0x0180 --code-loc 0xC400 --code-size 0x3C00 ' +
           files.map (a) ->
             'bin/' + a + '.rel'
@@ -62,6 +62,44 @@ module.exports = (grunt) ->
         options:
           stdout: true
           stderr: true
+          failOnError: true
+      checksum_8:
+        command:
+          'srec_cat "(" bin/S08JS8.s37 -fill 0xff 0x0000 0xffff
+            -crop 0xe400 0xffae 0xffc0 0x10000 -generate 0x100 0x102
+            --b-e-constant 0x1b9d 2 ")"
+            -big_endian_crc16 0xffb8 -xmodem -crop 0xffb8 0xffba
+            -o bin/S08JS8.crc'
+        options:
+          stdout: true
+          stderr: false
+          failOnError: true
+      checksum_16:
+        command:
+          'srec_cat "(" bin/S08JS16.s37 -fill 0xff 0x0000 0xffff
+            -crop 0xc400 0xffae 0xffc0 0x10000 -generate 0x100 0x102
+            --b-e-constant 0x1b9d 2 ")"
+            -big_endian_crc16 0xffb8 -xmodem -crop 0xffb8 0xffba
+            -o bin/S08JS16.crc'
+        options:
+          stdout: true
+          stderr: false
+          failOnError: true
+      s19_8:
+        command:
+          'srec_cat -Header S08JS8_245
+          bin/S08JS8.s37 bin/S08JS8.crc -o S08JS8.s19'
+        options:
+          stdout: true
+          stderr: false
+          failOnError: true
+      s19_16:
+        command:
+          'srec_cat -Header S08JS16_245
+          bin/S08JS16.s37 bin/S08JS16.crc -o S08JS16.s19'
+        options:
+          stdout: true
+          stderr: false
           failOnError: true
       test:
         command: 'mocha --compilers coffee:coffee-script -r should'
@@ -85,4 +123,8 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-shell'
 
   grunt.registerTask 'test', ['shell']
-  grunt.registerTask 'build', ['shell:sdcc1', 'shell:sdcc2_8', 'shell:sdcc2_16']
+  grunt.registerTask 'build_8', ['shell:sdcc1', 'shell:sdcc2_8',
+   'shell:checksum_8', 'shell:s19_8']
+  grunt.registerTask 'build_16', ['shell:sdcc1', 'shell:sdcc2_16',
+   'shell:checksum_16', 'shell:s19_16']
+  grunt.registerTask 'build', ['build_8', 'build_16']
