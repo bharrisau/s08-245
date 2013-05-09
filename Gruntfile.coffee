@@ -4,6 +4,8 @@ module.exports = (grunt) ->
       grunt.warn(stdout)
     cb()
 
+  files = ['main', 'init', 'ft245', 'power', 'uart']
+
   grunt.initConfig
     shell:
       gruntLint:
@@ -30,6 +32,37 @@ module.exports = (grunt) ->
           stdout: true
           stderr: true
           failOnError: true
+      sdcc1:
+        command:
+          files.map (a) ->
+            'sdcc -c -ms08 --stack-loc 0x027F -o bin/ src/' + a + '.c'
+          .join '&&'
+        options:
+          stdout: true
+          stderr: true
+          failOnError: true
+      sdcc2_8:
+        command:
+          'sdcc -o bin/S08JS8.out -ms08 --data-loc 0x80 --xram-loc 0x0100
+          --xram-size 0x0180 --code-loc 0xE400 --code-size 0x1C00 ' +
+          files.map (a) ->
+            'bin/' + a + '.rel'
+          .join ' '
+        options:
+          stdout: true
+          stderr: true
+          failOnError: true
+      sdcc2_16:
+        command:
+          'sdcc -o bin/S08JS16.out -ms08 --data-loc 0x80 --xram-loc 0x0100
+          --xram-size 0x0180 --code-loc 0xC400 --code-size 0x3C00 ' +
+          files.map (a) ->
+            'bin/' + a + '.rel'
+          .join ' '
+        options:
+          stdout: true
+          stderr: true
+          failOnError: true
       test:
         command: 'mocha --compilers coffee:coffee-script -r should'
         options:
@@ -52,5 +85,4 @@ module.exports = (grunt) ->
   grunt.loadNpmTasks 'grunt-shell'
 
   grunt.registerTask 'test', ['shell']
-
-class WringName
+  grunt.registerTask 'build', ['shell:sdcc1', 'shell:sdcc2_8', 'shell:sdcc2_16']

@@ -13,7 +13,7 @@
 **     Copyright : 1997 - 2010 Freescale Semiconductor, Inc. All Rights Reserved.
 **
 **     Redistribution and use in source and binary forms, with or without
-** 	   modification, are permitted provided that the following conditions
+**     modification, are permitted provided that the following conditions
 **     are met:
 **     - Redistributions of source code must retain the above copyright
 **       notice, this list of conditions and the following disclaimer.
@@ -81,7 +81,7 @@
 **               - MISRA compliance: U/UL suffixes added to all numbers (_MASK,_BITNUM and addresses)
 **
 **     Not all general-purpose I/O pins are available on all packages or on all mask sets of a specific
-**     derivative device. To avoid extra current drain from floating input pins, the user’s reset
+**     derivative device. To avoid extra current drain from floating input pins, the userÂ’s reset
 **     initialization routine in the application program must either enable on-chip pull-up devices
 **     or change the direction of unconnected pins to outputs so the pins do not float.
 ** ###################################################################
@@ -191,7 +191,7 @@ typedef union {
     byte PTAD7       :1;                                       /* Port A Data Register Bit 7 */
   } Bits;
 } PTADSTR;
-extern volatile PTADSTR _PTAD;
+volatile __data PTADSTR __at(0x00000000) _PTAD;
 #define PTAD                            _PTAD.Byte
 #define PTAD_PTAD0                      _PTAD.Bits.PTAD0
 #define PTAD_PTAD1                      _PTAD.Bits.PTAD1
@@ -226,7 +226,7 @@ typedef union {
     byte PTADD7      :1;                                       /* Data Direction for Port A Bit 7 */
   } Bits;
 } PTADDSTR;
-extern volatile PTADDSTR _PTADD;
+volatile __data PTADDSTR __at(0x00000001) _PTADD;
 #define PTADD                           _PTADD.Byte
 #define PTADD_PTADD0                    _PTADD.Bits.PTADD0
 #define PTADD_PTADD1                    _PTADD.Bits.PTADD1
@@ -266,7 +266,7 @@ typedef union {
     byte         :1;
   } MergedBits;
 } PTBDSTR;
-extern volatile PTBDSTR _PTBD;
+volatile __data PTBDSTR __at(0x00000002) _PTBD;
 #define PTBD                            _PTBD.Byte
 #define PTBD_PTBD0                      _PTBD.Bits.PTBD0
 #define PTBD_PTBD1                      _PTBD.Bits.PTBD1
@@ -308,7 +308,7 @@ typedef union {
     byte         :1;
   } MergedBits;
 } PTBDDSTR;
-extern volatile PTBDDSTR _PTBDD;
+volatile __data PTBDDSTR __at(0x00000003) _PTBDD;
 #define PTBDD                           _PTBDD.Byte
 #define PTBDD_PTBDD0                    _PTBDD.Bits.PTBDD0
 #define PTBDD_PTBDD1                    _PTBDD.Bits.PTBDD1
@@ -341,7 +341,7 @@ typedef union {
     byte TOF         :1;                                       /* MTIM Overflow Flag */
   } Bits;
 } MTIMSCSTR;
-extern volatile MTIMSCSTR _MTIMSC;
+volatile __data MTIMSCSTR __at(0x00000008) _MTIMSC;
 #define MTIMSC                          _MTIMSC.Byte
 #define MTIMSC_TSTP                     _MTIMSC.Bits.TSTP
 #define MTIMSC_TRST                     _MTIMSC.Bits.TRST
@@ -374,7 +374,7 @@ typedef union {
     byte         :1;
   } MergedBits;
 } MTIMCLKSTR;
-extern volatile MTIMCLKSTR _MTIMCLK;
+volatile __data MTIMCLKSTR __at(0x00000009) _MTIMCLK;
 #define MTIMCLK                         _MTIMCLK.Byte
 #define MTIMCLK_PS0                     _MTIMCLK.Bits.PS0
 #define MTIMCLK_PS1                     _MTIMCLK.Bits.PS1
@@ -401,7 +401,7 @@ extern volatile MTIMCLKSTR _MTIMCLK;
 typedef union {
   byte Byte;
 } MTIMCNTSTR;
-extern volatile MTIMCNTSTR _MTIMCNT;
+volatile __data MTIMCNTSTR __at(0x0000000A) _MTIMCNT;
 #define MTIMCNT                         _MTIMCNT.Byte
 
 
@@ -409,7 +409,7 @@ extern volatile MTIMCNTSTR _MTIMCNT;
 typedef union {
   byte Byte;
 } MTIMMODSTR;
-extern volatile MTIMMODSTR _MTIMMOD;
+volatile __data MTIMMODSTR __at(0x0000000B) _MTIMMOD;
 #define MTIMMOD                         _MTIMMOD.Byte
 
 
@@ -427,7 +427,7 @@ typedef union {
     byte BIT15       :1;                                       /* High byte of CRC register ,bit 15 */
   } Bits;
 } CRCHSTR;
-extern volatile CRCHSTR _CRCH;
+volatile __data CRCHSTR __at(0x0000000C) _CRCH;
 #define CRCH                            _CRCH.Byte
 #define CRCH_BIT8                       _CRCH.Bits.BIT8
 #define CRCH_BIT9                       _CRCH.Bits.BIT9
@@ -462,7 +462,7 @@ typedef union {
     byte BIT7        :1;                                       /* Low byte of CRC register, bit 7 */
   } Bits;
 } CRCLSTR;
-extern volatile CRCLSTR _CRCL;
+volatile __data CRCLSTR __at(0x0000000D) _CRCL;
 #define CRCL                            _CRCL.Byte
 #define CRCL_BIT0                       _CRCL.Bits.BIT0
 #define CRCL_BIT1                       _CRCL.Bits.BIT1
@@ -504,7 +504,7 @@ typedef union {
     byte         :1;
   } MergedBits;
 } TPMSCSTR;
-extern volatile TPMSCSTR _TPMSC;
+volatile __data TPMSCSTR __at(0x00000010) _TPMSC;
 #define TPMSC                           _TPMSC.Byte
 #define TPMSC_PS0                       _TPMSC.Bits.PS0
 #define TPMSC_PS1                       _TPMSC.Bits.PS1
@@ -552,7 +552,7 @@ typedef union {
   } Overlap_STR;
 
 } TPMCNTSTR;
-extern volatile TPMCNTSTR _TPMCNT;
+volatile __data TPMCNTSTR __at(0x00000011) _TPMCNT;
 #define TPMCNT                          _TPMCNT.Word
 
 
@@ -577,7 +577,7 @@ typedef union {
   } Overlap_STR;
 
 } TPMMODSTR;
-extern volatile TPMMODSTR _TPMMOD;
+volatile __data TPMMODSTR __at(0x00000013) _TPMMOD;
 #define TPMMOD                          _TPMMOD.Word
 
 
@@ -603,7 +603,7 @@ typedef union {
     byte         :1;
   } MergedBits;
 } TPMC0SCSTR;
-extern volatile TPMC0SCSTR _TPMC0SC;
+volatile __data TPMC0SCSTR __at(0x00000015) _TPMC0SC;
 #define TPMC0SC                         _TPMC0SC.Byte
 #define TPMC0SC_ELS0A                   _TPMC0SC.Bits.ELS0A
 #define TPMC0SC_ELS0B                   _TPMC0SC.Bits.ELS0B
@@ -647,7 +647,7 @@ typedef union {
   } Overlap_STR;
 
 } TPMC0VSTR;
-extern volatile TPMC0VSTR _TPMC0V;
+volatile __data TPMC0VSTR __at(0x00000016) _TPMC0V;
 #define TPMC0V                          _TPMC0V.Word
 
 
@@ -673,7 +673,7 @@ typedef union {
     byte         :1;
   } MergedBits;
 } TPMC1SCSTR;
-extern volatile TPMC1SCSTR _TPMC1SC;
+volatile __data TPMC1SCSTR __at(0x00000018) _TPMC1SC;
 #define TPMC1SC                         _TPMC1SC.Byte
 #define TPMC1SC_ELS1A                   _TPMC1SC.Bits.ELS1A
 #define TPMC1SC_ELS1B                   _TPMC1SC.Bits.ELS1B
@@ -717,7 +717,7 @@ typedef union {
   } Overlap_STR;
 
 } TPMC1VSTR;
-extern volatile TPMC1VSTR _TPMC1V;
+volatile __data TPMC1VSTR __at(0x00000019) _TPMC1V;
 #define TPMC1V                          _TPMC1V.Word
 
 
@@ -735,7 +735,7 @@ typedef union {
     byte             :1; 
   } Bits;
 } IRQSCSTR;
-extern volatile IRQSCSTR _IRQSC;
+volatile __data IRQSCSTR __at(0x0000001B) _IRQSC;
 #define IRQSC                           _IRQSC.Byte
 #define IRQSC_IRQMOD                    _IRQSC.Bits.IRQMOD
 #define IRQSC_IRQIE                     _IRQSC.Bits.IRQIE
@@ -768,7 +768,7 @@ typedef union {
     byte             :1; 
   } Bits;
 } KBISCSTR;
-extern volatile KBISCSTR _KBISC;
+volatile __data KBISCSTR __at(0x0000001C) _KBISC;
 #define KBISC                           _KBISC.Byte
 #define KBISC_KBMOD                     _KBISC.Bits.KBMOD
 #define KBISC_KBIE                      _KBISC.Bits.KBIE
@@ -795,7 +795,7 @@ typedef union {
     byte KBIPE7      :1;                                       /* Keyboard Pin Enable for KBI Port Bit 7 */
   } Bits;
 } KBIPESTR;
-extern volatile KBIPESTR _KBIPE;
+volatile __data KBIPESTR __at(0x0000001D) _KBIPE;
 #define KBIPE                           _KBIPE.Byte
 #define KBIPE_KBIPE0                    _KBIPE.Bits.KBIPE0
 #define KBIPE_KBIPE1                    _KBIPE.Bits.KBIPE1
@@ -830,7 +830,7 @@ typedef union {
     byte KBEDG7      :1;                                       /* Keyboard Edge Select Bit 7 */
   } Bits;
 } KBIESSTR;
-extern volatile KBIESSTR _KBIES;
+volatile __data KBIESSTR __at(0x0000001E) _KBIES;
 #define KBIES                           _KBIES.Byte
 #define KBIES_KBEDG0                    _KBIES.Bits.KBEDG0
 #define KBIES_KBEDG1                    _KBIES.Bits.KBEDG1
@@ -934,7 +934,7 @@ typedef union {
   } Overlap_STR;
 
 } SCIBDSTR;
-extern volatile SCIBDSTR _SCIBD;
+volatile __data SCIBDSTR __at(0x00000020) _SCIBD;
 #define SCIBD                           _SCIBD.Word
 
 
@@ -952,7 +952,7 @@ typedef union {
     byte LOOPS       :1;                                       /* Loop Mode Select */
   } Bits;
 } SCIC1STR;
-extern volatile SCIC1STR _SCIC1;
+volatile __data SCIC1STR __at(0x00000022) _SCIC1;
 #define SCIC1                           _SCIC1.Byte
 #define SCIC1_PT                        _SCIC1.Bits.PT
 #define SCIC1_PE                        _SCIC1.Bits.PE
@@ -987,7 +987,7 @@ typedef union {
     byte TIE         :1;                                       /* Transmit Interrupt Enable (for TDRE) */
   } Bits;
 } SCIC2STR;
-extern volatile SCIC2STR _SCIC2;
+volatile __data SCIC2STR __at(0x00000023) _SCIC2;
 #define SCIC2                           _SCIC2.Byte
 #define SCIC2_SBK                       _SCIC2.Bits.SBK
 #define SCIC2_RWU                       _SCIC2.Bits.RWU
@@ -1022,7 +1022,7 @@ typedef union {
     byte TDRE        :1;                                       /* Transmit Data Register Empty Flag */
   } Bits;
 } SCIS1STR;
-extern volatile SCIS1STR _SCIS1;
+volatile __data SCIS1STR __at(0x00000024) _SCIS1;
 #define SCIS1                           _SCIS1.Byte
 #define SCIS1_PF                        _SCIS1.Bits.PF
 #define SCIS1_FE                        _SCIS1.Bits.FE
@@ -1057,7 +1057,7 @@ typedef union {
     byte LBKDIF      :1;                                       /* LIN Break Detect Interrupt Flag */
   } Bits;
 } SCIS2STR;
-extern volatile SCIS2STR _SCIS2;
+volatile __data SCIS2STR __at(0x00000025) _SCIS2;
 #define SCIS2                           _SCIS2.Byte
 #define SCIS2_RAF                       _SCIS2.Bits.RAF
 #define SCIS2_LBKDE                     _SCIS2.Bits.LBKDE
@@ -1090,7 +1090,7 @@ typedef union {
     byte R8          :1;                                       /* Ninth Data Bit for Receiver */
   } Bits;
 } SCIC3STR;
-extern volatile SCIC3STR _SCIC3;
+volatile __data SCIC3STR __at(0x00000026) _SCIC3;
 #define SCIC3                           _SCIC3.Byte
 #define SCIC3_PEIE                      _SCIC3.Bits.PEIE
 #define SCIC3_FEIE                      _SCIC3.Bits.FEIE
@@ -1125,7 +1125,7 @@ typedef union {
     byte R7_T7       :1;                                       /* Receive/Transmit Data Bit 7 */
   } Bits;
 } SCIDSTR;
-extern volatile SCIDSTR _SCID;
+volatile __data SCIDSTR __at(0x00000027) _SCID;
 #define SCID                            _SCID.Byte
 #define SCID_R0_T0                      _SCID.Bits.R0_T0
 #define SCID_R1_T1                      _SCID.Bits.R1_T1
@@ -1160,7 +1160,7 @@ typedef union {
     byte SPIE        :1;                                       /* SPI Interrupt Enable (for SPRF and MODF) */
   } Bits;
 } SPIC1STR;
-extern volatile SPIC1STR _SPIC1;
+volatile __data SPIC1STR __at(0x00000030) _SPIC1;
 #define SPIC1                           _SPIC1.Byte
 #define SPIC1_LSBFE                     _SPIC1.Bits.LSBFE
 #define SPIC1_SSOE                      _SPIC1.Bits.SSOE
@@ -1195,7 +1195,7 @@ typedef union {
     byte SPMIE       :1;                                       /* SPI Match Interrupt Enable */
   } Bits;
 } SPIC2STR;
-extern volatile SPIC2STR _SPIC2;
+volatile __data SPIC2STR __at(0x00000031) _SPIC2;
 #define SPIC2                           _SPIC2.Byte
 #define SPIC2_SPC0                      _SPIC2.Bits.SPC0
 #define SPIC2_SPISWAI                   _SPIC2.Bits.SPISWAI
@@ -1232,7 +1232,7 @@ typedef union {
     byte         :1;
   } MergedBits;
 } SPIBRSTR;
-extern volatile SPIBRSTR _SPIBR;
+volatile __data SPIBRSTR __at(0x00000032) _SPIBR;
 #define SPIBR                           _SPIBR.Byte
 #define SPIBR_SPR0                      _SPIBR.Bits.SPR0
 #define SPIBR_SPR1                      _SPIBR.Bits.SPR1
@@ -1269,7 +1269,7 @@ typedef union {
     byte SPRF        :1;                                       /* SPI Read Buffer Full Flag */
   } Bits;
 } SPISSTR;
-extern volatile SPISSTR _SPIS;
+volatile __data SPISSTR __at(0x00000033) _SPIS;
 #define SPIS                            _SPIS.Byte
 #define SPIS_MODF                       _SPIS.Bits.MODF
 #define SPIS_SPTEF                      _SPIS.Bits.SPTEF
@@ -1340,7 +1340,7 @@ typedef union {
   } Overlap_STR;
 
 } SPID16STR;
-extern volatile SPID16STR _SPID16;
+volatile __data SPID16STR __at(0x00000034) _SPID16;
 #define SPID16                          _SPID16.Word
 
 
@@ -1419,7 +1419,7 @@ typedef union {
   } Overlap_STR;
 
 } SPIMSTR;
-extern volatile SPIMSTR _SPIM;
+volatile __data SPIMSTR __at(0x00000036) _SPIM;
 #define SPIM                            _SPIM.Word
 
 
@@ -1444,7 +1444,7 @@ typedef union {
     byte grpCLKS :2;
   } MergedBits;
 } MCGC1STR;
-extern volatile MCGC1STR _MCGC1;
+volatile __data MCGC1STR __at(0x00000040) _MCGC1;
 #define MCGC1                           _MCGC1.Byte
 #define MCGC1_IREFSTEN                  _MCGC1.Bits.IREFSTEN
 #define MCGC1_IRCLKEN                   _MCGC1.Bits.IRCLKEN
@@ -1494,7 +1494,7 @@ typedef union {
     byte grpBDIV :2;
   } MergedBits;
 } MCGC2STR;
-extern volatile MCGC2STR _MCGC2;
+volatile __data MCGC2STR __at(0x00000041) _MCGC2;
 #define MCGC2                           _MCGC2.Byte
 #define MCGC2_EREFSTEN                  _MCGC2.Bits.EREFSTEN
 #define MCGC2_ERCLKEN                   _MCGC2.Bits.ERCLKEN
@@ -1532,7 +1532,7 @@ typedef union {
     byte TRIM7       :1;                                       /* MCG Trim Setting, bit 7 */
   } Bits;
 } MCGTRMSTR;
-extern volatile MCGTRMSTR _MCGTRM;
+volatile __data MCGTRMSTR __at(0x00000042) _MCGTRM;
 #define MCGTRM                          _MCGTRM.Byte
 #define MCGTRM_TRIM0                    _MCGTRM.Bits.TRIM0
 #define MCGTRM_TRIM1                    _MCGTRM.Bits.TRIM1
@@ -1576,7 +1576,7 @@ typedef union {
     byte         :1;
   } MergedBits;
 } MCGSCSTR;
-extern volatile MCGSCSTR _MCGSC;
+volatile __data MCGSCSTR __at(0x00000043) _MCGSC;
 #define MCGSC                           _MCGSC.Byte
 #define MCGSC_FTRIM                     _MCGSC.Bits.FTRIM_bit
 #define MCGSC_OSCINIT                   _MCGSC.Bits.OSCINIT
@@ -1621,7 +1621,7 @@ typedef union {
     byte         :1;
   } MergedBits;
 } MCGC3STR;
-extern volatile MCGC3STR _MCGC3;
+volatile __data MCGC3STR __at(0x00000044) _MCGC3;
 #define MCGC3                           _MCGC3.Byte
 #define MCGC3_VDIV0                     _MCGC3.Bits.VDIV0
 #define MCGC3_VDIV1                     _MCGC3.Bits.VDIV1
@@ -1663,7 +1663,7 @@ typedef union {
     byte         :1;
   } MergedBits;
 } RTCSCSTR;
-extern volatile RTCSCSTR _RTCSC;
+volatile __data RTCSCSTR __at(0x00000048) _RTCSC;
 #define RTCSC                           _RTCSC.Byte
 #define RTCSC_RTCPS0                    _RTCSC.Bits.RTCPS0
 #define RTCSC_RTCPS1                    _RTCSC.Bits.RTCPS1
@@ -1694,7 +1694,7 @@ extern volatile RTCSCSTR _RTCSC;
 typedef union {
   byte Byte;
 } RTCCNTSTR;
-extern volatile RTCCNTSTR _RTCCNT;
+volatile __data RTCCNTSTR __at(0x00000049) _RTCCNT;
 #define RTCCNT                          _RTCCNT.Byte
 
 
@@ -1702,7 +1702,7 @@ extern volatile RTCCNTSTR _RTCCNT;
 typedef union {
   byte Byte;
 } RTCMODSTR;
-extern volatile RTCMODSTR _RTCMOD;
+volatile __data RTCMODSTR __at(0x0000004A) _RTCMOD;
 #define RTCMOD                          _RTCMOD.Byte
 
 
@@ -1720,7 +1720,7 @@ typedef union {
     byte USBRESET    :1;                                       /* USB Reset */
   } Bits;
 } USBCTL0STR;
-extern volatile USBCTL0STR _USBCTL0;
+volatile __data USBCTL0STR __at(0x00000050) _USBCTL0;
 #define USBCTL0                         _USBCTL0.Byte
 #define USBCTL0_USBPHYEN                _USBCTL0.Bits.USBPHYEN
 #define USBCTL0_USBVREN                 _USBCTL0.Bits.USBVREN
@@ -1756,7 +1756,7 @@ typedef union {
     byte         :1;
   } MergedBits;
 } PERIDSTR;
-extern volatile PERIDSTR _PERID;
+volatile __data PERIDSTR __at(0x00000058) _PERID;
 #define PERID                           _PERID.Byte
 #define PERID_ID0                       _PERID.Bits.ID0
 #define PERID_ID1                       _PERID.Bits.ID1
@@ -1795,7 +1795,7 @@ typedef union {
     byte         :1;
   } MergedBits;
 } IDCOMPSTR;
-extern volatile IDCOMPSTR _IDCOMP;
+volatile __data IDCOMPSTR __at(0x00000059) _IDCOMP;
 #define IDCOMP                          _IDCOMP.Byte
 #define IDCOMP_NID0                     _IDCOMP.Bits.NID0
 #define IDCOMP_NID1                     _IDCOMP.Bits.NID1
@@ -1829,7 +1829,7 @@ typedef union {
     byte REV7        :1;                                       /* Revision Bit 7 */
   } Bits;
 } REVSTR;
-extern volatile REVSTR _REV;
+volatile __data REVSTR __at(0x0000005A) _REV;
 #define REV                             _REV.Byte
 #define REV_REV0                        _REV.Bits.REV0
 #define REV_REV1                        _REV.Bits.REV1
@@ -1864,7 +1864,7 @@ typedef union {
     byte STALLF      :1;                                       /* Stall Flag */
   } Bits;
 } INTSTATSTR;
-extern volatile INTSTATSTR _INTSTAT;
+volatile __data INTSTATSTR __at(0x00000060) _INTSTAT;
 #define INTSTAT                         _INTSTAT.Byte
 #define INTSTAT_USBRSTF                 _INTSTAT.Bits.USBRSTF
 #define INTSTAT_ERRORF                  _INTSTAT.Bits.ERRORF
@@ -1897,7 +1897,7 @@ typedef union {
     byte STALL       :1;                                       /* STALL Interrupt Enable */
   } Bits;
 } INTENBSTR;
-extern volatile INTENBSTR _INTENB;
+volatile __data INTENBSTR __at(0x00000061) _INTENB;
 #define INTENB                          _INTENB.Byte
 #define INTENB_USBRST                   _INTENB.Bits.USBRST
 #define INTENB_ERROR                    _INTENB.Bits.ERROR
@@ -1930,7 +1930,7 @@ typedef union {
     byte BTSERRF     :1;                                       /* Bit Stuff Error Flag */
   } Bits;
 } ERRSTATSTR;
-extern volatile ERRSTATSTR _ERRSTAT;
+volatile __data ERRSTATSTR __at(0x00000062) _ERRSTAT;
 #define ERRSTAT                         _ERRSTAT.Byte
 #define ERRSTAT_PIDERRF                 _ERRSTAT.Bits.PIDERRF
 #define ERRSTAT_CRC5F                   _ERRSTAT.Bits.CRC5F
@@ -1963,7 +1963,7 @@ typedef union {
     byte BTSERR      :1;                                       /* BTSERR Interrupt Enable */
   } Bits;
 } ERRENBSTR;
-extern volatile ERRENBSTR _ERRENB;
+volatile __data ERRENBSTR __at(0x00000063) _ERRENB;
 #define ERRENB                          _ERRENB.Byte
 #define ERRENB_PIDERR                   _ERRENB.Bits.PIDERR
 #define ERRENB_CRC5                     _ERRENB.Bits.CRC5
@@ -2003,7 +2003,7 @@ typedef union {
     byte grpENDP :4;
   } MergedBits;
 } STATSTR;
-extern volatile STATSTR _STAT;
+volatile __data STATSTR __at(0x00000064) _STAT;
 #define STAT                            _STAT.Byte
 #define STAT_ODD                        _STAT.Bits.ODD
 #define STAT_IN                         _STAT.Bits.IN
@@ -2037,7 +2037,7 @@ typedef union {
     byte             :1; 
   } Bits;
 } CTLSTR;
-extern volatile CTLSTR _CTL;
+volatile __data CTLSTR __at(0x00000065) _CTL;
 #define CTL                             _CTL.Byte
 #define CTL_USBEN                       _CTL.Bits.USBEN
 #define CTL_ODDRST                      _CTL.Bits.ODDRST
@@ -2068,7 +2068,7 @@ typedef union {
     byte         :1;
   } MergedBits;
 } ADDRSTR;
-extern volatile ADDRSTR _ADDR;
+volatile __data ADDRSTR __at(0x00000066) _ADDR;
 #define ADDR                            _ADDR.Byte
 #define ADDR_ADDR0                      _ADDR.Bits.ADDR0
 #define ADDR_ADDR1                      _ADDR.Bits.ADDR1
@@ -2104,7 +2104,7 @@ typedef union {
     byte FRM7        :1;                                       /* Frame Number Bit 7 */
   } Bits;
 } FRMNUMLSTR;
-extern volatile FRMNUMLSTR _FRMNUML;
+volatile __data FRMNUMLSTR __at(0x00000067) _FRMNUML;
 #define FRMNUML                         _FRMNUML.Byte
 #define FRMNUML_FRM0                    _FRMNUML.Bits.FRM0
 #define FRMNUML_FRM1                    _FRMNUML.Bits.FRM1
@@ -2147,7 +2147,7 @@ typedef union {
     byte         :1;
   } MergedBits;
 } FRMNUMHSTR;
-extern volatile FRMNUMHSTR _FRMNUMH;
+volatile __data FRMNUMHSTR __at(0x00000068) _FRMNUMH;
 #define FRMNUMH                         _FRMNUMH.Byte
 #define FRMNUMH_FRM8                    _FRMNUMH.Bits.FRM8
 #define FRMNUMH_FRM9                    _FRMNUMH.Bits.FRM9
@@ -2176,7 +2176,7 @@ typedef union {
     byte             :1; 
   } Bits;
 } EPCTL0STR;
-extern volatile EPCTL0STR _EPCTL0;
+volatile __data EPCTL0STR __at(0x0000006D) _EPCTL0;
 #define EPCTL0                          _EPCTL0.Byte
 #define EPCTL0_EPHSHK                   _EPCTL0.Bits.EPHSHK
 #define EPCTL0_EPSTALL                  _EPCTL0.Bits.EPSTALL
@@ -2207,7 +2207,7 @@ typedef union {
     byte             :1; 
   } Bits;
 } EPCTL1STR;
-extern volatile EPCTL1STR _EPCTL1;
+volatile __data EPCTL1STR __at(0x0000006E) _EPCTL1;
 #define EPCTL1                          _EPCTL1.Byte
 #define EPCTL1_EPHSHK                   _EPCTL1.Bits.EPHSHK
 #define EPCTL1_EPSTALL                  _EPCTL1.Bits.EPSTALL
@@ -2236,7 +2236,7 @@ typedef union {
     byte             :1; 
   } Bits;
 } EPCTL2STR;
-extern volatile EPCTL2STR _EPCTL2;
+volatile __data EPCTL2STR __at(0x0000006F) _EPCTL2;
 #define EPCTL2                          _EPCTL2.Byte
 #define EPCTL2_EPHSHK                   _EPCTL2.Bits.EPHSHK
 #define EPCTL2_EPSTALL                  _EPCTL2.Bits.EPSTALL
@@ -2265,7 +2265,7 @@ typedef union {
     byte             :1; 
   } Bits;
 } EPCTL3STR;
-extern volatile EPCTL3STR _EPCTL3;
+volatile __data EPCTL3STR __at(0x00000070) _EPCTL3;
 #define EPCTL3                          _EPCTL3.Byte
 #define EPCTL3_EPHSHK                   _EPCTL3.Bits.EPHSHK
 #define EPCTL3_EPSTALL                  _EPCTL3.Bits.EPSTALL
@@ -2294,7 +2294,7 @@ typedef union {
     byte             :1; 
   } Bits;
 } EPCTL4STR;
-extern volatile EPCTL4STR _EPCTL4;
+volatile __data EPCTL4STR __at(0x00000071) _EPCTL4;
 #define EPCTL4                          _EPCTL4.Byte
 #define EPCTL4_EPHSHK                   _EPCTL4.Bits.EPHSHK
 #define EPCTL4_EPSTALL                  _EPCTL4.Bits.EPSTALL
@@ -2323,7 +2323,7 @@ typedef union {
     byte             :1; 
   } Bits;
 } EPCTL5STR;
-extern volatile EPCTL5STR _EPCTL5;
+volatile __data EPCTL5STR __at(0x00000072) _EPCTL5;
 #define EPCTL5                          _EPCTL5.Byte
 #define EPCTL5_EPHSHK                   _EPCTL5.Bits.EPHSHK
 #define EPCTL5_EPSTALL                  _EPCTL5.Bits.EPSTALL
@@ -2352,7 +2352,7 @@ typedef union {
     byte             :1; 
   } Bits;
 } EPCTL6STR;
-extern volatile EPCTL6STR _EPCTL6;
+volatile __data EPCTL6STR __at(0x00000073) _EPCTL6;
 #define EPCTL6                          _EPCTL6.Byte
 #define EPCTL6_EPHSHK                   _EPCTL6.Bits.EPHSHK
 #define EPCTL6_EPSTALL                  _EPCTL6.Bits.EPSTALL
@@ -2381,7 +2381,7 @@ typedef union {
     byte POR         :1;                                       /* Power-On Reset */
   } Bits;
 } SRSSTR;
-extern volatile SRSSTR _SRS;
+volatile __xdata SRSSTR __at(0x00001800) _SRS;
 #define SRS                             _SRS.Byte
 #define SRS_LVD                         _SRS.Bits.LVD
 #define SRS_LOC                         _SRS.Bits.LOC
@@ -2414,7 +2414,7 @@ typedef union {
     byte             :1; 
   } Bits;
 } SBDFRSTR;
-extern volatile SBDFRSTR _SBDFR;
+volatile __xdata SBDFRSTR __at(0x00001801) _SBDFR;
 #define SBDFR                           _SBDFR.Byte
 #define SBDFR_BDFR                      _SBDFR.Bits.BDFR
 
@@ -2444,7 +2444,7 @@ typedef union {
     byte grpCOPT :2;
   } MergedBits;
 } SOPT1STR;
-extern volatile SOPT1STR _SOPT1;
+volatile __xdata SOPT1STR __at(0x00001802) _SOPT1;
 #define SOPT1                           _SOPT1.Byte
 #define SOPT1_RSTPE                     _SOPT1.Bits.RSTPE
 #define SOPT1_BKGDPE                    _SOPT1.Bits.BKGDPE
@@ -2478,7 +2478,7 @@ typedef union {
     byte COPCLKS     :1;                                       /* COP Watchdog Clock Select */
   } Bits;
 } SOPT2STR;
-extern volatile SOPT2STR _SOPT2;
+volatile __xdata SOPT2STR __at(0x00001803) _SOPT2;
 #define SOPT2                           _SOPT2.Byte
 #define SOPT2_SPIFE                     _SOPT2.Bits.SPIFE
 #define SOPT2_COPW                      _SOPT2.Bits.COPW
@@ -2567,7 +2567,7 @@ typedef union {
   } Overlap_STR;
 
 } SDIDSTR;
-extern volatile SDIDSTR _SDID;
+volatile __xdata SDIDSTR __at(0x00001806) _SDID;
 #define SDID                            _SDID.Word
 
 
@@ -2585,7 +2585,7 @@ typedef union {
     byte LVWF        :1;                                       /* Low-Voltage Warning status */
   } Bits;
 } SPMSC1STR;
-extern volatile SPMSC1STR _SPMSC1;
+volatile __xdata SPMSC1STR __at(0x00001809) _SPMSC1;
 #define SPMSC1                          _SPMSC1.Byte
 #define SPMSC1_LVDE                     _SPMSC1.Bits.LVDE
 #define SPMSC1_LVDSE                    _SPMSC1.Bits.LVDSE
@@ -2616,7 +2616,7 @@ typedef union {
     byte             :1; 
   } Bits;
 } SPMSC2STR;
-extern volatile SPMSC2STR _SPMSC2;
+volatile __xdata SPMSC2STR __at(0x0000180A) _SPMSC2;
 #define SPMSC2                          _SPMSC2.Byte
 #define SPMSC2_PPDC                     _SPMSC2.Bits.PPDC
 #define SPMSC2_PPDACK                   _SPMSC2.Bits.PPDACK
@@ -2645,7 +2645,7 @@ typedef union {
     byte             :1; 
   } Bits;
 } FTRIMSTR;
-extern volatile FTRIMSTR _FTRIM;
+volatile __xdata FTRIMSTR __at(0x0000180C) _FTRIM;
 #define FTRIM                           _FTRIM.Byte
 #define FTRIM_FTRIM                     _FTRIM.Bits.FTRIM_bit
 
@@ -2666,7 +2666,7 @@ typedef union {
     byte TRIM7       :1;                                       /* Factory trim value, bit 7 */
   } Bits;
 } MCGTRIMSTR;
-extern volatile MCGTRIMSTR _MCGTRIM;
+volatile __xdata MCGTRIMSTR __at(0x0000180D) _MCGTRIM;
 #define MCGTRIM                         _MCGTRIM.Byte
 #define MCGTRIM_TRIM0                   _MCGTRIM.Bits.TRIM0
 #define MCGTRIM_TRIM1                   _MCGTRIM.Bits.TRIM1
@@ -2701,7 +2701,7 @@ typedef union {
     byte             :1; 
   } Bits;
 } FPROTDSTR;
-extern volatile FPROTDSTR _FPROTD;
+volatile __xdata FPROTDSTR __at(0x0000180E) _FPROTD;
 #define FPROTD                          _FPROTD.Byte
 #define FPROTD_Bit0                     _FPROTD.Bits.Bit0
 
@@ -2712,7 +2712,7 @@ extern volatile FPROTDSTR _FPROTD;
 typedef union {
   byte Byte;
 } SIGNATURESTR;
-extern volatile SIGNATURESTR _SIGNATURE;
+volatile __xdata SIGNATURESTR __at(0x0000180F) _SIGNATURE;
 #define SIGNATURE                       _SIGNATURE.Byte
 
 
@@ -2791,7 +2791,7 @@ typedef union {
   } Overlap_STR;
 
 } DBGCASTR;
-extern volatile DBGCASTR _DBGCA;
+volatile __xdata DBGCASTR __at(0x00001810) _DBGCA;
 #define DBGCA                           _DBGCA.Word
 
 
@@ -2870,7 +2870,7 @@ typedef union {
   } Overlap_STR;
 
 } DBGCBSTR;
-extern volatile DBGCBSTR _DBGCB;
+volatile __xdata DBGCBSTR __at(0x00001812) _DBGCB;
 #define DBGCB                           _DBGCB.Word
 
 
@@ -2949,7 +2949,7 @@ typedef union {
   } Overlap_STR;
 
 } DBGFSTR;
-extern volatile DBGFSTR _DBGF;
+volatile __xdata DBGFSTR __at(0x00001814) _DBGF;
 #define DBGF                            _DBGF.Word
 
 
@@ -2967,7 +2967,7 @@ typedef union {
     byte DBGEN       :1;                                       /* Debug Module Enable */
   } Bits;
 } DBGCSTR;
-extern volatile DBGCSTR _DBGC;
+volatile __xdata DBGCSTR __at(0x00001816) _DBGC;
 #define DBGC                            _DBGC.Byte
 #define DBGC_RWBEN                      _DBGC.Bits.RWBEN
 #define DBGC_RWB                        _DBGC.Bits.RWB
@@ -3009,7 +3009,7 @@ typedef union {
     byte         :1;
   } MergedBits;
 } DBGTSTR;
-extern volatile DBGTSTR _DBGT;
+volatile __xdata DBGTSTR __at(0x00001817) _DBGT;
 #define DBGT                            _DBGT.Byte
 #define DBGT_TRG0                       _DBGT.Bits.TRG0
 #define DBGT_TRG1                       _DBGT.Bits.TRG1
@@ -3050,7 +3050,7 @@ typedef union {
     byte         :1;
   } MergedBits;
 } DBGSSTR;
-extern volatile DBGSSTR _DBGS;
+volatile __xdata DBGSSTR __at(0x00001818) _DBGS;
 #define DBGS                            _DBGS.Byte
 #define DBGS_CNT0                       _DBGS.Bits.CNT0
 #define DBGS_CNT1                       _DBGS.Bits.CNT1
@@ -3091,7 +3091,7 @@ typedef union {
     byte         :1;
   } MergedBits;
 } FCDIVSTR;
-extern volatile FCDIVSTR _FCDIV;
+volatile __xdata FCDIVSTR __at(0x00001820) _FCDIV;
 #define FCDIV                           _FCDIV.Byte
 #define FCDIV_DIV0                      _FCDIV.Bits.DIV0
 #define FCDIV_DIV1                      _FCDIV.Bits.DIV1
@@ -3138,7 +3138,7 @@ typedef union {
     byte         :1;
   } MergedBits;
 } FOPTSTR;
-extern volatile FOPTSTR _FOPT;
+volatile __xdata FOPTSTR __at(0x00001821) _FOPT;
 #define FOPT                            _FOPT.Byte
 #define FOPT_SEC00                      _FOPT.Bits.SEC00
 #define FOPT_SEC01                      _FOPT.Bits.SEC01
@@ -3168,7 +3168,7 @@ typedef union {
     byte             :1; 
   } Bits;
 } FCNFGSTR;
-extern volatile FCNFGSTR _FCNFG;
+volatile __xdata FCNFGSTR __at(0x00001823) _FCNFG;
 #define FCNFG                           _FCNFG.Byte
 #define FCNFG_KEYACC                    _FCNFG.Bits.KEYACC
 
@@ -3193,7 +3193,7 @@ typedef union {
     byte grpFPS_1 :7;
   } MergedBits;
 } FPROTSTR;
-extern volatile FPROTSTR _FPROT;
+volatile __xdata FPROTSTR __at(0x00001824) _FPROT;
 #define FPROT                           _FPROT.Byte
 #define FPROT_FPDIS                     _FPROT.Bits.FPDIS
 #define FPROT_FPS1                      _FPROT.Bits.FPS1
@@ -3232,7 +3232,7 @@ typedef union {
     byte FCBEF       :1;                                       /* FLASH Command Buffer Empty Flag */
   } Bits;
 } FSTATSTR;
-extern volatile FSTATSTR _FSTAT;
+volatile __xdata FSTATSTR __at(0x00001825) _FSTAT;
 #define FSTAT                           _FSTAT.Byte
 #define FSTAT_FBLANK                    _FSTAT.Bits.FBLANK
 #define FSTAT_FACCERR                   _FSTAT.Bits.FACCERR
@@ -3261,7 +3261,7 @@ typedef union {
     byte FCMD7       :1;                                       /* FLASH Command Bit 7 */
   } Bits;
 } FCMDSTR;
-extern volatile FCMDSTR _FCMD;
+volatile __xdata FCMDSTR __at(0x00001826) _FCMD;
 #define FCMD                            _FCMD.Byte
 #define FCMD_FCMD0                      _FCMD.Bits.FCMD0
 #define FCMD_FCMD1                      _FCMD.Bits.FCMD1
@@ -3296,7 +3296,7 @@ typedef union {
     byte PTAPE7      :1;                                       /* Internal Pull Enable for Port A Bit 7 */
   } Bits;
 } PTAPESTR;
-extern volatile PTAPESTR _PTAPE;
+volatile __xdata PTAPESTR __at(0x00001840) _PTAPE;
 #define PTAPE                           _PTAPE.Byte
 #define PTAPE_PTAPE0                    _PTAPE.Bits.PTAPE0
 #define PTAPE_PTAPE1                    _PTAPE.Bits.PTAPE1
@@ -3331,7 +3331,7 @@ typedef union {
     byte PTASE7      :1;                                       /* Output Slew Rate Enable for Port A Bit 7 */
   } Bits;
 } PTASESTR;
-extern volatile PTASESTR _PTASE;
+volatile __xdata PTASESTR __at(0x00001841) _PTASE;
 #define PTASE                           _PTASE.Byte
 #define PTASE_PTASE0                    _PTASE.Bits.PTASE0
 #define PTASE_PTASE1                    _PTASE.Bits.PTASE1
@@ -3366,7 +3366,7 @@ typedef union {
     byte PTADS7      :1;                                       /* Output Drive Strength Selection for Port A Bit 7 */
   } Bits;
 } PTADSSTR;
-extern volatile PTADSSTR _PTADS;
+volatile __xdata PTADSSTR __at(0x00001842) _PTADS;
 #define PTADS                           _PTADS.Byte
 #define PTADS_PTADS0                    _PTADS.Bits.PTADS0
 #define PTADS_PTADS1                    _PTADS.Bits.PTADS1
@@ -3409,7 +3409,7 @@ typedef union {
     byte         :1;
   } MergedBits;
 } PTBPESTR;
-extern volatile PTBPESTR _PTBPE;
+volatile __xdata PTBPESTR __at(0x00001844) _PTBPE;
 #define PTBPE                           _PTBPE.Byte
 #define PTBPE_PTBPE0                    _PTBPE.Bits.PTBPE0
 #define PTBPE_PTBPE1                    _PTBPE.Bits.PTBPE1
@@ -3448,7 +3448,7 @@ typedef union {
     byte         :1;
   } MergedBits;
 } PTBSESTR;
-extern volatile PTBSESTR _PTBSE;
+volatile __xdata PTBSESTR __at(0x00001845) _PTBSE;
 #define PTBSE                           _PTBSE.Byte
 #define PTBSE_PTBSE1                    _PTBSE.Bits.PTBSE1
 #define PTBSE_PTBSE2                    _PTBSE.Bits.PTBSE2
@@ -3486,7 +3486,7 @@ typedef union {
     byte         :1;
   } MergedBits;
 } PTBDSSTR;
-extern volatile PTBDSSTR _PTBDS;
+volatile __xdata PTBDSSTR __at(0x00001846) _PTBDS;
 #define PTBDS                           _PTBDS.Byte
 #define PTBDS_PTBDS1                    _PTBDS.Bits.PTBDS1
 #define PTBDS_PTBDS2                    _PTBDS.Bits.PTBDS2
@@ -3518,7 +3518,7 @@ typedef union {
     byte             :1; 
   } Bits;
 } NVFTRIMSTR;
-/* Tip for register initialization in the user code:  const byte NVFTRIM_INIT = <NVFTRIM_INITVAL>; */
+/* Tip for register initialization in the user code:  const byte NVFTRIM_INIT @0x0000FFAE = <NVFTRIM_INITVAL>; */
 #define _NVFTRIM (*(const NVFTRIMSTR * __far)0x0000FFAE)
 #define NVFTRIM                         _NVFTRIM.Byte
 #define NVFTRIM_FTRIM                   _NVFTRIM.Bits.FTRIM_bit
@@ -3540,7 +3540,7 @@ typedef union {
     byte TRIM7       :1;                                       /* MCG Trim Setting, bit 7 */
   } Bits;
 } NVMCGTRMSTR;
-/* Tip for register initialization in the user code:  const byte NVMCGTRM_INIT = <NVMCGTRM_INITVAL>; */
+/* Tip for register initialization in the user code:  const byte NVMCGTRM_INIT @0x0000FFAF = <NVMCGTRM_INITVAL>; */
 #define _NVMCGTRM (*(const NVMCGTRMSTR * __far)0x0000FFAF)
 #define NVMCGTRM                        _NVMCGTRM.Byte
 #define NVMCGTRM_TRIM0                  _NVMCGTRM.Bits.TRIM0
@@ -3576,7 +3576,7 @@ typedef union {
     byte KEY7        :1;                                       /* Backdoor Comparison Key 0 Bits, bit 7 */
   } Bits;
 } NVBACKKEY0STR;
-/* Tip for register initialization in the user code:  const byte NVBACKKEY0_INIT = <NVBACKKEY0_INITVAL>; */
+/* Tip for register initialization in the user code:  const byte NVBACKKEY0_INIT @0x0000FFB0 = <NVBACKKEY0_INITVAL>; */
 #define _NVBACKKEY0 (*(const NVBACKKEY0STR * __far)0x0000FFB0)
 #define NVBACKKEY0                      _NVBACKKEY0.Byte
 #define NVBACKKEY0_KEY0                 _NVBACKKEY0.Bits.KEY0
@@ -3614,7 +3614,7 @@ typedef union {
     byte KEY7        :1;                                       /* Backdoor Comparison Key 1 Bits, bit 7 */
   } Bits;
 } NVBACKKEY1STR;
-/* Tip for register initialization in the user code:  const byte NVBACKKEY1_INIT = <NVBACKKEY1_INITVAL>; */
+/* Tip for register initialization in the user code:  const byte NVBACKKEY1_INIT @0x0000FFB1 = <NVBACKKEY1_INITVAL>; */
 #define _NVBACKKEY1 (*(const NVBACKKEY1STR * __far)0x0000FFB1)
 #define NVBACKKEY1                      _NVBACKKEY1.Byte
 #define NVBACKKEY1_KEY0                 _NVBACKKEY1.Bits.KEY0
@@ -3650,7 +3650,7 @@ typedef union {
     byte KEY7        :1;                                       /* Backdoor Comparison Key 2 Bits, bit 7 */
   } Bits;
 } NVBACKKEY2STR;
-/* Tip for register initialization in the user code:  const byte NVBACKKEY2_INIT = <NVBACKKEY2_INITVAL>; */
+/* Tip for register initialization in the user code:  const byte NVBACKKEY2_INIT @0x0000FFB2 = <NVBACKKEY2_INITVAL>; */
 #define _NVBACKKEY2 (*(const NVBACKKEY2STR * __far)0x0000FFB2)
 #define NVBACKKEY2                      _NVBACKKEY2.Byte
 #define NVBACKKEY2_KEY0                 _NVBACKKEY2.Bits.KEY0
@@ -3686,7 +3686,7 @@ typedef union {
     byte KEY7        :1;                                       /* Backdoor Comparison Key 3 Bits, bit 7 */
   } Bits;
 } NVBACKKEY3STR;
-/* Tip for register initialization in the user code:  const byte NVBACKKEY3_INIT = <NVBACKKEY3_INITVAL>; */
+/* Tip for register initialization in the user code:  const byte NVBACKKEY3_INIT @0x0000FFB3 = <NVBACKKEY3_INITVAL>; */
 #define _NVBACKKEY3 (*(const NVBACKKEY3STR * __far)0x0000FFB3)
 #define NVBACKKEY3                      _NVBACKKEY3.Byte
 #define NVBACKKEY3_KEY0                 _NVBACKKEY3.Bits.KEY0
@@ -3722,7 +3722,7 @@ typedef union {
     byte KEY7        :1;                                       /* Backdoor Comparison Key 4 Bits, bit 7 */
   } Bits;
 } NVBACKKEY4STR;
-/* Tip for register initialization in the user code:  const byte NVBACKKEY4_INIT = <NVBACKKEY4_INITVAL>; */
+/* Tip for register initialization in the user code:  const byte NVBACKKEY4_INIT @0x0000FFB4 = <NVBACKKEY4_INITVAL>; */
 #define _NVBACKKEY4 (*(const NVBACKKEY4STR * __far)0x0000FFB4)
 #define NVBACKKEY4                      _NVBACKKEY4.Byte
 #define NVBACKKEY4_KEY0                 _NVBACKKEY4.Bits.KEY0
@@ -3758,7 +3758,7 @@ typedef union {
     byte KEY7        :1;                                       /* Backdoor Comparison Key 5 Bits, bit 7 */
   } Bits;
 } NVBACKKEY5STR;
-/* Tip for register initialization in the user code:  const byte NVBACKKEY5_INIT = <NVBACKKEY5_INITVAL>; */
+/* Tip for register initialization in the user code:  const byte NVBACKKEY5_INIT @0x0000FFB5 = <NVBACKKEY5_INITVAL>; */
 #define _NVBACKKEY5 (*(const NVBACKKEY5STR * __far)0x0000FFB5)
 #define NVBACKKEY5                      _NVBACKKEY5.Byte
 #define NVBACKKEY5_KEY0                 _NVBACKKEY5.Bits.KEY0
@@ -3794,7 +3794,7 @@ typedef union {
     byte KEY7        :1;                                       /* Backdoor Comparison Key 6 Bits, bit 7 */
   } Bits;
 } NVBACKKEY6STR;
-/* Tip for register initialization in the user code:  const byte NVBACKKEY6_INIT = <NVBACKKEY6_INITVAL>; */
+/* Tip for register initialization in the user code:  const byte NVBACKKEY6_INIT @0x0000FFB6 = <NVBACKKEY6_INITVAL>; */
 #define _NVBACKKEY6 (*(const NVBACKKEY6STR * __far)0x0000FFB6)
 #define NVBACKKEY6                      _NVBACKKEY6.Byte
 #define NVBACKKEY6_KEY0                 _NVBACKKEY6.Bits.KEY0
@@ -3830,7 +3830,7 @@ typedef union {
     byte KEY7        :1;                                       /* Backdoor Comparison Key 7 Bits, bit 7 */
   } Bits;
 } NVBACKKEY7STR;
-/* Tip for register initialization in the user code:  const byte NVBACKKEY7_INIT = <NVBACKKEY7_INITVAL>; */
+/* Tip for register initialization in the user code:  const byte NVBACKKEY7_INIT @0x0000FFB7 = <NVBACKKEY7_INITVAL>; */
 #define _NVBACKKEY7 (*(const NVBACKKEY7STR * __far)0x0000FFB7)
 #define NVBACKKEY7                      _NVBACKKEY7.Byte
 #define NVBACKKEY7_KEY0                 _NVBACKKEY7.Bits.KEY0
@@ -3866,7 +3866,7 @@ typedef union {
     byte BIT7        :1;                                       /* Checksum bypass, bit 7 */
   } Bits;
 } CHECKSUMBYPASSSTR;
-/* Tip for register initialization in the user code:  const byte CHECKSUMBYPASS_INIT = <CHECKSUMBYPASS_INITVAL>; */
+/* Tip for register initialization in the user code:  const byte CHECKSUMBYPASS_INIT @0x0000FFBA = <CHECKSUMBYPASS_INITVAL>; */
 #define _CHECKSUMBYPASS (*(const CHECKSUMBYPASSSTR * __far)0x0000FFBA)
 #define CHECKSUMBYPASS                  _CHECKSUMBYPASS.Byte
 #define CHECKSUMBYPASS_BIT0             _CHECKSUMBYPASS.Bits.BIT0
@@ -3906,7 +3906,7 @@ typedef union {
     byte grpFPS_1 :7;
   } MergedBits;
 } NVPROTSTR;
-/* Tip for register initialization in the user code:  const byte NVPROT_INIT = <NVPROT_INITVAL>; */
+/* Tip for register initialization in the user code:  const byte NVPROT_INIT @0x0000FFBD = <NVPROT_INITVAL>; */
 #define _NVPROT (*(const NVPROTSTR * __far)0x0000FFBD)
 #define NVPROT                          _NVPROT.Byte
 #define NVPROT_FPDIS                    _NVPROT.Bits.FPDIS
@@ -3955,7 +3955,7 @@ typedef union {
     byte         :1;
   } MergedBits;
 } NVOPTSTR;
-/* Tip for register initialization in the user code:  const byte NVOPT_INIT = <NVOPT_INITVAL>; */
+/* Tip for register initialization in the user code:  const byte NVOPT_INIT @0x0000FFBF = <NVOPT_INITVAL>; */
 #define _NVOPT (*(const NVOPTSTR * __far)0x0000FFBF)
 #define NVOPT                           _NVOPT.Byte
 #define NVOPT_SEC00                     _NVOPT.Bits.SEC00

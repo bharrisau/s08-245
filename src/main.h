@@ -1,3 +1,9 @@
+#ifndef __SDCC
+#define __at(x)
+#define __data
+#define __xdata
+#endif
+
 #include "../include/mc9s08js16l.h"
 
 /*
