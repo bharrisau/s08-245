@@ -25,3 +25,4 @@
 */
 
 void init_system(void);
+void init_mcb(void);

@@ -23,9 +23,32 @@ static void init_ptb() {
   PTBDS = 0x00;
 }
 
+static void init_wait_MCGSC(byte mask, byte value) {
+  while((MCGSC & mask) != value);
+}
+
+
+static void init_fbe() {
+  init_wait_MCGSC(0x00, 0x01);
+}
+
+static void init_pbe() {
+
+}
+
+static void init_pee() {
+
+}
+
 void init_system() {
   init_writeOnce();
 
   init_pta();
   init_ptb();
+}
+
+void init_mcb() {
+  init_fbe();
+  init_pbe();
+  init_pee();
 }

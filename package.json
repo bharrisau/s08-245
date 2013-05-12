@@ -28,6 +28,7 @@
     "grunt": "~0.4.1",
     "grunt-shell": "~0.2.2",
     "grunt-contrib-watch": "~0.4.0",
-    "should": "~1.2.2"
+    "should": "~1.2.2",
+    "sinon": "~1.7.2"
   }
 }

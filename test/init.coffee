@@ -1,20 +1,6 @@
 app = require '../js/app'
 should = require 'should'
-
-###
-# Clock/oscillator MCG
-# USB Endpoints
-# GPIO directions
-# GPIO pullups
-# Interupts
-# SOPT1
-# SOPT2
-# SPMSC1
-
-MCG init
-
-USB init
-###
+sinon = require 'sinon'
 
 set = (reg, value) ->
   should.exist(app['__'+reg])
@@ -248,3 +234,92 @@ describe 'init', () ->
         set reg, (0xFF ^ val)
         app.ccall 'init_system'
         get(reg, mask).should.equal val
+
+  describe 'mcg', () ->
+    before () ->
+      app._init_wait_MCGSC
+      #Mock out call to init_wait_MCGSC
+    it 'moves from FEI to FBE', () ->
+      #BDIV      7:6 = 00   divide by 1
+      #RANGE       5 =  1   External 1M-16M
+      #HGO         4 =  1   High gain
+      #EREFS       2 =  1   Crystal
+      #ERCLKEN     1 =  1   External
+      MCGC2 = bin 5, 4, 2, 1
+
+      #OSCINIT - bit 1 = 1
+      init_wait_MCGSC bin(1), bin(1)
+
+      #Block interrupts?
+
+      #CLKS      7:6 = 10   Extref
+      #RDIV      5:3 = 111  Divide by 128
+      #IREFS       2 = 0    External clock
+      MCGC1 = bin 7, 5, 4, 3
+
+      #IREFST - bit 4 = 0
+      #CLKST - bit 3:2 = 10
+      init_wait_MCGSC bin(4,3,2), bin(3)
+
+    it 'moves from FBE to PBE', () ->
+      #BLPE mode because of high clock
+      #LP          3 = 1    Disable FLL/PLL
+      MCGC2 = MCGC2 | bin 3
+
+      #16 Mhz clock - 48Mhz output  (16/8)*24 = 48
+      #RDIV      5:3 = 011  Divide by 8
+      MCGC1 = (MCGC1 & bin(7,6,2,1,0)) | bin(4,3)
+      
+      #PLLS       6 = 1     PLL
+      #VDIV     3:0 = 0110  Mult by 24
+      MCGC3 = bin 6, 2, 1
+
+      #PLLST - bit 5 = 1
+      init_wait_MCGSC bin(5), bin(5)
+
+      #Leave BLPE mode
+      #LP          3 = 0    Enable FLL/PLL
+      MCGC2 = MCGC2 & bin(7, 6, 5, 4, 2, 1, 0)
+
+      #LOCK - bit 6 = 1
+      init_wait_MCGSC bin(6), bin(6)
+
+    it 'moves from PBE to PEE', () ->
+      #16 Mhz clock
+      #CLKS     7:6 = 00    PLL
+      MCGC1 = (MCGC1 & bin(5, 4, 3, 2, 1, 0))
+
+      #CLKST - bit 3:2 = 11
+      init_wait_MCGSC bin(3,2), bin(3,2)
+
+  describe 'usb', () ->
+    #USBCTL0_RESET = 1
+
+    #Resetted?
+    #wait USBCTL0_RESET = 0
+
+    #Initialize the BD of endpoint 0
+    #  (For BD OUT: set buffer address EPADR,
+    #  set CNT = 8, DATA0, DTS=1, OWN = 1)
+    # USB+0x02 = ADDR
+    # Set other ednpoint addresses. 64 bytes?
+    # USB+0x05 = ADDR
+    # USB+0x04 = 0x08
+    # USB+0x03 = 0x88
+
+    #Enable EP0 (EPCTL0 = 0x0D)
+
+    #Config USB module (pullup resistor, regulator, PHY)
+    #USBCTL0_USBPU = 1
+    #USBCTL0_USBVREN = 0
+    #USBCTL0_USBPHYEN = 1
+
+    #Enable USB module and USB interrupt
+    #INTENB = 0xBF if want interrupts
+    #ERRENB = 0xBF if error interrupts
+    #CTL_USBEN = 1
+
+    #Set USB state ATTACHED (of POWERED, DEFAULT, ADDR_PENDING,
+      #ADDRESSED, CONFIGURED, SUSPEND)
+    #Internal RAM value
+
