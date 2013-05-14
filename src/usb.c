@@ -1,4 +1,5 @@
 #include "main.h"
+#include "../util/usb_descriptors.h"
 //Write the code that polls the status and reacts accordingly.
 
 static void usb_int_resume() {
