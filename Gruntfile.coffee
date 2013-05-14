@@ -102,7 +102,7 @@ module.exports = (grunt) ->
           stderr: false
           failOnError: true
       test:
-        command: 'mocha --compilers coffee:coffee-script -r should'
+        command: 'mocha --compilers coffee:coffee-script -r should -R spec'
         options:
           stdout: true
           stderr: true
@@ -115,7 +115,7 @@ module.exports = (grunt) ->
         files: 'test/*.coffee'
         tasks: ['shell:testLint', 'shell:test']
       src:
-        files: 'src/*.c'
+        files: ['src/*.c', 'src/*.h']
         tasks: ['shell:srcLint', 'shell:compile', 'shell:test']
 
 

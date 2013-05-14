@@ -24,5 +24,41 @@
 20 PTA7 Tx (s08->device)
 */
 
+enum USB_STATES {
+  POWERED       = 0,
+  ATTACHED      = 1,
+  DEFAULT       = 2,
+  ADDR_PENDING  = 3,
+  ADDRESSED     = 4,
+  CONFIGURED    = 5,
+  SUSPEND       = 6
+};
+
+extern enum USB_STATES usb_state;
+
+typedef struct {
+  union {
+    byte Byte;
+    struct {
+      byte NONE1        :1;
+      byte NONE2        :1;
+      byte PID0_STALL   :1;
+      byte PID1_DTS     :1;
+      byte PID2         :1;
+      byte PID3         :1;
+      byte DATA01       :1;
+      byte OWN          :1;
+    } Bits;
+  } Info;
+  byte Length;
+  byte Address;
+} USB_BD;
+
+#define USB_RAM_START = 0x1860;
+volatile __xdata USB_BD __at(USB_RAM_START) USB_EP0_IN;
+volatile __xdata USB_BD __at(USB_RAM_START+0x03) USB_EP0_OUT;
+
+
 void init_system(void);
 void init_mcb(void);
+void init_usb(void);
