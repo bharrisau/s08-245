@@ -54,7 +54,7 @@ typedef struct {
   byte Address;
 } USB_BD;
 
-#define USB_RAM_START = 0x1860;
+#define USB_RAM_START 0x1860
 volatile __xdata USB_BD __at(USB_RAM_START) USB_EP0_IN;
 volatile __xdata USB_BD __at(USB_RAM_START+0x03) USB_EP0_OUT;
 

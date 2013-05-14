@@ -354,13 +354,17 @@ describe 'init', () ->
       app.ccall 'init_reset_usb'
       firstWait.called.should.be.true
 
-    it 'sets EP0 OUT for enumeration', () ->
+    it 'sets EP0 for enumeration', () ->
       # Initialize the BD of endpoint 0
       #  (For BD OUT: set buffer address EPADR,
       #  set CNT = 8, DATA0, DTS=1, OWN = 1)
-      app.ccall 'init_ep0_out'
+      app.ccall 'init_ep0'
 
-      getOffset('USB_EP0_OUT', 2).should.equal 0
+      getOffset('USB_EP0_IN', 2).should.equal 0x08
+      getOffset('USB_EP0_IN', 1).should.equal 0x08
+      getOffset('USB_EP0_IN', 0).should.equal 0
+
+      getOffset('USB_EP0_OUT', 2).should.equal 0x0C
       getOffset('USB_EP0_OUT', 1).should.equal 0x08
       getOffset('USB_EP0_OUT', 0).should.equal bin(7, 3)
 

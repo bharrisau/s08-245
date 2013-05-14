@@ -60,8 +60,12 @@ static void init_reset_usb() {
   init_wait_USBCTL0(0x80, 0);
 }
 
-static void init_ep0_out() {
-  USB_EP0_OUT.Address = 0;
+static void init_ep0() {
+  USB_EP0_IN.Address = 0x08;
+  USB_EP0_IN.Length = 8;
+  USB_EP0_IN.Info.Byte = 0;
+
+  USB_EP0_OUT.Address = 0x0C;
   USB_EP0_OUT.Length = 8;
   USB_EP0_OUT.Info.Byte = 0x88;
 
@@ -95,7 +99,7 @@ void init_mcb() {
 void init_usb() {
   init_reset_usb();
 
-  init_ep0_out();
+  init_ep0();
 
   init_usbctl0();
 

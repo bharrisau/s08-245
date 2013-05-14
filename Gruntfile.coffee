@@ -4,7 +4,7 @@ module.exports = (grunt) ->
       grunt.warn(stdout)
     cb()
 
-  files = ['main', 'init', 'ft245', 'power', 'uart']
+  files = ['main', 'init', 'usb', 'power', 'uart']
 
   grunt.initConfig
     shell:
