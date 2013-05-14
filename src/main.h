@@ -34,21 +34,27 @@ enum USB_STATES {
   SUSPEND       = 6
 };
 
-extern enum USB_STATES usb_state;
+/*@i@*/ extern enum USB_STATES usb_state;
 
 typedef struct {
   union {
     byte Byte;
     struct {
-      byte NONE1        :1;
-      byte NONE2        :1;
-      byte PID0_STALL   :1;
-      byte PID1_DTS     :1;
-      byte PID2         :1;
-      byte PID3         :1;
-      byte DATA01       :1;
+      byte              :1;
+      byte              :1;
+      byte STALL        :1;
+      byte DTS          :1;
+      byte              :1;
+      byte              :1;
+      byte DATA         :1;
       byte OWN          :1;
-    } Bits;
+    } Write;
+    struct {
+      byte              :2;
+      byte PID          :4;
+      byte              :1;
+      byte OWN          :1;
+    } Read;
   } Info;
   byte Length;
   byte Address;
