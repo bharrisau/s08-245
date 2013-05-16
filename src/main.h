@@ -64,6 +64,10 @@ typedef struct {
 volatile __xdata USB_BD __at(USB_RAM_START) USB_EP0_IN;
 volatile __xdata USB_BD __at(USB_RAM_START+0x03) USB_EP0_OUT;
 
+#define USB_EP0_IN_BUFF 32
+#define USB_EP0_OUT_BUFF 48
+#define USB_EP0_LENGTH 8
+
 
 void init_system(void);
 void init_mcb(void);

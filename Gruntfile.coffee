@@ -19,7 +19,7 @@ module.exports = (grunt) ->
           stdout: false
           callback: cLintCB
       srcLint:
-        command: 'splint -maintype -type src/*.c'
+        command: 'splint -maintype -varuse +charindex -type src/*.c'
         options:
           stdout: true
           failOnError: true
@@ -102,7 +102,7 @@ module.exports = (grunt) ->
           stderr: false
           failOnError: true
       test:
-        command: 'mocha --compilers coffee:coffee-script -r should -R spec'
+        command: 'mocha --compilers coffee:coffee-script -r should -R dot'
         options:
           stdout: true
           stderr: true
@@ -116,7 +116,7 @@ module.exports = (grunt) ->
         tasks: ['shell:testLint', 'shell:test']
       src:
         files: ['src/*.c', 'src/*.h']
-        tasks: ['shell:srcLint', 'shell:compile', 'shell:test']
+        tasks: ['shell:srcLint', 'shell:compile', 'shell:test', 'build']
 
 
   grunt.loadNpmTasks 'grunt-contrib-watch'

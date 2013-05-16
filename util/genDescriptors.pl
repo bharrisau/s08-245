@@ -14,6 +14,7 @@ my $device = USB::Descriptor::device(
     #'serial_number'     => '007',         # Later make a placeholder
     'configurations'    => [{
         #'description'   => 'Default',      # Really needed?
+        'value'             => 1,
         'remote_wakeup'     => 0,
         'self_powered'      => 0,
         'max_current'       => 500,   # mA

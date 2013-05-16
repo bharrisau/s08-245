@@ -61,12 +61,12 @@ static void init_reset_usb() {
 }
 
 static void init_ep0() {
-  USB_EP0_IN.Address = 0x08;
-  USB_EP0_IN.Length = 8;
+  USB_EP0_IN.Address = USB_EP0_IN_BUFF>>2;
+  USB_EP0_IN.Length = USB_EP0_LENGTH;
   USB_EP0_IN.Info.Byte = 0;
 
-  USB_EP0_OUT.Address = 0x0C;
-  USB_EP0_OUT.Length = 8;
+  USB_EP0_OUT.Address = USB_EP0_OUT_BUFF>>2;
+  USB_EP0_OUT.Length = USB_EP0_LENGTH;
   USB_EP0_OUT.Info.Byte = 0x88;
 
   EPCTL0 = 0x0D;
