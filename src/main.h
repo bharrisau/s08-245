@@ -68,7 +68,8 @@ volatile __xdata USB_BD __at(USB_RAM_START+0x03) USB_EP0_OUT;
 #define USB_EP0_OUT_BUFF 48
 #define USB_EP0_LENGTH 8
 
-
 void init_system(void);
 void init_mcb(void);
 void init_usb(void);
+void usb_ep0_token(void);
+void usb_ep0_prep_setup(void);

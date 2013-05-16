@@ -361,7 +361,7 @@ describe 'init', () ->
       app.ccall 'init_ep0'
 
       getOffset('USB_EP0_IN', 2).should.equal 0x08
-      getOffset('USB_EP0_IN', 1).should.equal 0x08
+      getOffset('USB_EP0_IN', 1).should.equal 0
       getOffset('USB_EP0_IN', 0).should.equal 0
 
       getOffset('USB_EP0_OUT', 2).should.equal 0x0C
