@@ -50,7 +50,7 @@ static byte pending_address;
 void usb_ep0_prep_setup() {
   //Prepare EP0 for setup packet
   USB_EP0_OUT.Length = 8;
-  USB_EP0_OUT.Info.Byte = 0x88;
+  USB_EP0_OUT.Info.Byte = USB_BD_DTS | USB_BD_OWN;
 }
 
 static void usb_ep0_stall() {
@@ -68,11 +68,11 @@ static void usb_ep0_fill_in() {
     *p = *ep0_data_index;
   }
   USB_EP0_IN.Length = i;
-  USB_EP0_IN.Info.Byte = 0xC0;
-
-  //Prepare OUT for ack packet
-  USB_EP0_OUT.Length = 0;
-  USB_EP0_OUT.Info.Byte = 0xC0;
+  if (USB_EP0_IN.Info.Write.DATA == 1) {
+      USB_EP0_IN.Info.Byte = USB_BD_OWN;
+  } else {
+    USB_EP0_IN.Info.Byte = USB_BD_OWN | USB_BD_DATA16;
+  }
 }
 
 static void usb_ep0_in() {
@@ -80,21 +80,29 @@ static void usb_ep0_in() {
     usb_state = ADDRESSED;
     ADDR = pending_address;
   }
-  if (ep0_state == DATA_TX) {
-    usb_ep0_fill_in();
-  } else {
-    //Prepare for next setup message
-    ep0_state = WAIT_SETUP;
+  switch (ep0_state) {
+    case WAIT_SETUP:
+      return usb_ep0_stall();      //Bad sequence
+    case DATA_TX:
+      usb_ep0_fill_in();
+      break;
+    case DATA_RX:
+      ep0_state = WAIT_SETUP;
+      usb_ep0_prep_setup();
   }
 }
 
 static void usb_ep0_out() {
-  if (ep0_state == DATA_RX) {
-    //All data is <=8 bytes - no more bytes to transfer
-
-  } else {
-    //Prepare for next setup message
-    ep0_state = WAIT_SETUP;
+  switch (ep0_state) {
+    case WAIT_SETUP:
+      return usb_ep0_stall();      //Bad sequence
+    case DATA_RX:
+        //All data is <=8 bytes - no more bytes to transfer
+        // Dont yet support anything that actually uses these bytes.
+      break;
+    case DATA_TX:
+      ep0_state = WAIT_SETUP;
+      usb_ep0_prep_setup();
   }
 }
 
@@ -103,18 +111,23 @@ static void usb_ep0_data_write(byte *start, byte length) {
   ep0_data_index = start;
   ep0_data_end = start+length;
 
+  USB_EP0_IN.Info.Byte = 0;     // Write to 0, so when toggled it becomes DATA1
   usb_ep0_fill_in();
+
+  //Prepare OUT for ack packet
+  USB_EP0_OUT.Length = 0;
+  USB_EP0_OUT.Info.Byte = USB_BD_OWN | USB_BD_DATA1 | USB_BD_DTS;
 }
 
 static void usb_ep0_data_read(byte length) {
-  //Only supports length = 0;
   ep0_state = DATA_RX;
   USB_EP0_OUT.Length = length;
-  USB_EP0_OUT.Info.Byte = 0xC0;
+  USB_EP0_OUT.Info.Byte = USB_BD_OWN | USB_BD_DATA1 | USB_BD_DTS;
 
   //Prepare IN for ack packet
   USB_EP0_IN.Length = 0;
-  USB_EP0_IN.Info.Byte = 0xC0;
+  USB_EP0_IN.Info.Byte = USB_BD_OWN | USB_BD_DATA1;
+  //Do we need DTS on an IN endpoint?
 }
 
 static void usb_ep0_standard_device_rx() {
@@ -143,6 +156,7 @@ static void usb_ep0_standard_device_rx() {
 
 static void usb_ep0_standard_device_tx() {
   byte strIndex;
+  byte l1, l2;
 
   switch (ep0_setup_packet.Request) {
     case 0:                 //GET_STATUS
@@ -151,10 +165,16 @@ static void usb_ep0_standard_device_tx() {
     case 6:                 //GET_DESCRIPTOR
       switch (ep0_setup_packet.wValue.Byte.High) {
         case 1:             //Device descriptor
-          usb_ep0_data_write(device_descriptor, *device_descriptor);
+          l1 = *device_descriptor;
+          l2 = ep0_setup_packet.wLength;
+          usb_ep0_data_write(device_descriptor,
+            l1 < l2 ? l1 : l2);
           break;
         case 2:             //Configuration descriptor
-          usb_ep0_data_write(configuration, *configuration);
+          l1 = *configuration;
+          l2 = ep0_setup_packet.wLength;
+          usb_ep0_data_write(configuration,
+            l1 < l2 ? l1 : l2);
           break;
         case 3:             //String descriptor
           strIndex = ep0_setup_packet.wValue.Byte.Low;
@@ -162,7 +182,9 @@ static void usb_ep0_standard_device_tx() {
             return usb_ep0_stall();
           } else {
             byte *str = strings[strIndex];
-            usb_ep0_data_write(str, *str);
+            l1 = *str;
+            l2 = ep0_setup_packet.wLength;
+            usb_ep0_data_write(str, l1 < l2 ? l1 : l2);
           }
           break;
         default:
@@ -235,8 +257,14 @@ static void usb_ep0_standard_endpoint_tx() {
 static void usb_ep0_vendor_device_rx() {
   switch (ep0_setup_packet.Request) {
     case 0x68:              //Reset to bootloader
-
-    break;
+      usb_state = BOOTLOADER;
+      break;
+    case 0x70:
+      PTAD_PTAD5 = 0;       //Activate power
+      break;
+    case 0x71:
+      PTAD_PTAD5 = 1;       //Disable power
+      break;
     default:
       usb_ep0_stall();
   }

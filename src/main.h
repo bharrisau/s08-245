@@ -6,6 +6,7 @@
 #define __at(x)
 #define __data
 #define __xdata
+#define __asm__(x)
 #endif
 
 #include "../include/mc9s08js16l.h"
@@ -31,7 +32,10 @@ enum USB_STATES {
   ADDR_PENDING  = 3,
   ADDRESSED     = 4,
   CONFIGURED    = 5,
-  SUSPEND       = 6
+  WAIT_SUSPEND  = 6,
+  SUSPEND       = 7,
+  USB_POWER     = 8,
+  BOOTLOADER    = 9
 };
 
 /*@i@*/ extern enum USB_STATES usb_state;
@@ -64,12 +68,17 @@ typedef struct {
 volatile __xdata USB_BD __at(USB_RAM_START) USB_EP0_IN;
 volatile __xdata USB_BD __at(USB_RAM_START+0x03) USB_EP0_OUT;
 
-#define USB_EP0_IN_BUFF 32
-#define USB_EP0_OUT_BUFF 48
-#define USB_EP0_LENGTH 8
+#define USB_EP0_IN_BUFF   32
+#define USB_EP0_OUT_BUFF  48
+#define USB_EP0_LENGTH    8
+#define USB_BD_DTS        8
+#define USB_BD_DATA1      64
+#define USB_BD_OWN        128
+
 
 void init_system(void);
 void init_mcb(void);
 void init_usb(void);
+void usb_loop(void);
 void usb_ep0_token(void);
 void usb_ep0_prep_setup(void);

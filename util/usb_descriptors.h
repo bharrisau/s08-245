@@ -1,4 +1,4 @@
-/*@unused@*/ static const byte device_descriptor[] = {18, 1, 16, 1, 0, 0, 0, 8, 52, 18, 120, 86, 16, 0, 1, 2, 0, 1};
+/*@unused@*/ static const byte device_descriptor[] = {18, 1, 16, 1, 0, 0, 0, 8, 80, 29, 170, 170, 16, 0, 1, 2, 0, 1};
 /*@unused@*/ static const byte configuration[] = {9, 2, 9, 0, 0, 1, 0, 128, 122};
 /*@unused@*/ static const byte string0[] = {4, 3, 9, 4};
 /*@unused@*/ static const byte string1[] = {12, 3, 98, 0, 104, 0, 97, 0, 114, 0, 114, 0};
