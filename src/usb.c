@@ -90,22 +90,22 @@ void usb_loop() {
   }
 
   // Check INTSTAT_RESUMEF
-  if(INTSTAT_RESUMEF != 0) usb_int_resume();
+  //if(INTSTAT_RESUMEF != 0) usb_int_resume();
 
   // Check INTSTAT_USBRSTF 
   if(INTSTAT_USBRSTF != 0) usb_int_reset();
 
   // Check INTSTAT_SOFTOKF 
-  if(INTSTAT_SOFTOKF != 0) usb_int_SOF();
+  //if(INTSTAT_SOFTOKF != 0) usb_int_SOF();
 
   // Check INTSTAT_STALLF 
-  if(INTSTAT_STALLF != 0) usb_int_stall();
+  //if(INTSTAT_STALLF != 0) usb_int_stall();
 
   // Check INTSTAT_ERRORF 
-  if(INTSTAT_ERRORF != 0) usb_int_error();
+  //if(INTSTAT_ERRORF != 0) usb_int_error();
 
   // Check INTSTAT_SLEEPF 
-  if(INTSTAT_SLEEPF != 0) usb_int_sleep();
+  //if(INTSTAT_SLEEPF != 0) usb_int_sleep();
 
   // Check INTSTAT_TOKDNEF 
   if(INTSTAT_TOKDNEF != 0) usb_int_token();

@@ -19,19 +19,21 @@ static const byte *EP0_OUT_BUFF = (byte *)(USB_RAM_START+USB_EP0_OUT_BUFF);
 static const byte usb_device_status[] = {0, 0};
 
 typedef struct {
-  byte Recipient  : 5;
-  byte Type       : 2;
-  byte Direction  : 1;
-  byte Request;
   union {
-    word Word;
     struct {
-      byte Low;
-      byte High;
-    } Byte;
-  } wValue;
-  word wIndex;
-  word wLength;
+      byte Recipient  : 5;
+      byte Type       : 2;
+      byte Direction  : 1;
+    } Bits;
+    byte Byte;
+  } Type;
+  byte Request;
+  byte wValue1;
+  byte wValue2;
+  byte wIndex1;
+  byte wIndex2;
+  byte wLength1;
+  byte wLength2;
 } EP0_REQ_TYPE;
 
 static volatile __xdata EP0_REQ_TYPE 
@@ -67,11 +69,12 @@ static void usb_ep0_fill_in() {
     ep0_data_index < ep0_data_end; p++, i++, ep0_data_index++) {
     *p = *ep0_data_index;
   }
+
   USB_EP0_IN.Length = i;
   if (USB_EP0_IN.Info.Write.DATA == 1) {
-      USB_EP0_IN.Info.Byte = USB_BD_OWN;
+    USB_EP0_IN.Info.Byte = USB_BD_OWN;
   } else {
-    USB_EP0_IN.Info.Byte = USB_BD_OWN | USB_BD_DATA16;
+    USB_EP0_IN.Info.Byte = USB_BD_OWN | USB_BD_DATA1;
   }
 }
 
@@ -83,7 +86,7 @@ static void usb_ep0_in() {
   switch (ep0_state) {
     case WAIT_SETUP:
       return usb_ep0_stall();      //Bad sequence
-    case DATA_TX:
+    case DATA_TX: 
       usb_ep0_fill_in();
       break;
     case DATA_RX:
@@ -138,15 +141,16 @@ static void usb_ep0_standard_device_rx() {
     case 3:                 //SET_FEATURE
       //Ignore this one
       break;
-    case 4:                 //SET_ADDRESS
+    case 5:                 //SET_ADDRESS
       usb_state = ADDR_PENDING;
-      pending_address = ep0_setup_packet.wValue.Byte.Low;
+      pending_address = ep0_setup_packet.wValue1;
       break;
     case 7:                 //SET_DESCRIPTOR
       return usb_ep0_stall();      //Not supported
     case 9:                 //SET_CONFIGURATION
       //Lets assume it is picking our ONLY configuration
       usb_state = CONFIGURED;
+      PTAD_PTAD5 = 0;
       break;
     default:
       return usb_ep0_stall();
@@ -163,27 +167,28 @@ static void usb_ep0_standard_device_tx() {
       usb_ep0_data_write(usb_device_status, 2);
       break;
     case 6:                 //GET_DESCRIPTOR
-      switch (ep0_setup_packet.wValue.Byte.High) {
+      switch (ep0_setup_packet.wValue2) {
         case 1:             //Device descriptor
-          l1 = *device_descriptor;
-          l2 = ep0_setup_packet.wLength;
-          usb_ep0_data_write(device_descriptor,
-            l1 < l2 ? l1 : l2);
+          // l1 = *device_descriptor;
+          // l2 = ep0_setup_packet.wLength1;
+          // usb_ep0_data_write(device_descriptor,
+          //   l1 < l2 ? l1 : l2);
+          usb_ep0_data_write(device_descriptor, 18);
           break;
         case 2:             //Configuration descriptor
           l1 = *configuration;
-          l2 = ep0_setup_packet.wLength;
+          l2 = ep0_setup_packet.wLength1;
           usb_ep0_data_write(configuration,
             l1 < l2 ? l1 : l2);
           break;
         case 3:             //String descriptor
-          strIndex = ep0_setup_packet.wValue.Byte.Low;
+          strIndex = ep0_setup_packet.wValue1;
           if (strIndex > sizeof(strings)/sizeof(strings[0])) {
             return usb_ep0_stall();
           } else {
             byte *str = strings[strIndex];
             l1 = *str;
-            l2 = ep0_setup_packet.wLength;
+            l2 = ep0_setup_packet.wLength1;
             usb_ep0_data_write(str, l1 < l2 ? l1 : l2);
           }
           break;
@@ -266,8 +271,9 @@ static void usb_ep0_vendor_device_rx() {
       PTAD_PTAD5 = 1;       //Disable power
       break;
     default:
-      usb_ep0_stall();
+      return usb_ep0_stall();
   }
+  usb_ep0_data_read(0);
 }
 
 static void usb_ep0_vendor_device_tx() {
@@ -276,7 +282,7 @@ static void usb_ep0_vendor_device_tx() {
 
 static void usb_ep0_setup() {
   ep0_state = WAIT_SETUP;
-  switch(*EP0_OUT_BUFF) {
+  switch(ep0_setup_packet.Type.Byte) {
     case TYPE_STD | RCPT_DEV | DIR_RX:
       usb_ep0_standard_device_rx();
       break;

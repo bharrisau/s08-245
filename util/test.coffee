@@ -1,82 +1,32 @@
 usb = require 'usb'
 
-code = []
-index = 0
-eBuffer = new Buffer(0)
-
 # Find device
-device = usb.findByIds 0x15A2, 0x0038
-console.log JSON.stringify(device);
+device = null
+empty = new Buffer(0)
 
+waitDevice = () ->
+  console.log "Waiting"
+  device = usb.findByIds 0x1d50, 0xAAAA
+  return testDevice() if device
+  setTimeout waitDevice, 500
 
-close = (msg) ->
-  console.log msg
-  process.exit(1)
+testDevice = () ->
+  device.open()
+  console.log "Found device - disabling power"
+  device.controlTransfer 0x40, 0x71, 0, 0, empty, test2
 
-close("Unable to find device") if !device
+test2 = () ->
+  setTimeout test3, 5000
 
-getResult     = (cb) -> device.controlTransfer 0xC0, 0x6F, 0, 0, 1, cb
-program       = (start, end, data, cb) -> device.controlTransfer 0x40, 0x61, start, end, data, waitCB(cb, 5)
-massErase     = (cb) -> device.controlTransfer 0x40, 0x63, 0, 0, eBuffer, waitCB(cb, 150)
-partialErase  = (cb) -> device.controlTransfer 0x40, 0x64, 0, 0, eBuffer, waitCB(cb, 700)
-reset         = (cb) -> device.controlTransfer 0x40, 0x68, 0, 0, eBuffer, cb
-crcCheck      = (cb) -> device.controlTransfer 0x40, 0x69, 0, 0, eBuffer, waitCB(cb, 10)
+test3 = () ->
+  console.log "Enabling power"
+  device.controlTransfer 0x40, 0x70, 0, 0, empty, test4
 
-waitCB = (cb, timeout) ->
-  checkResult = (err, data) ->
-    cb(err) if err
-    cb(new Error("Command failed")) if data[0] != 0x01
-    cb(err, data)
+test4 = () ->
+  setTimeout test5, 1000
 
-  (err, data) ->
-    cb(err, data) if err
-    setTimeout getResult, timeout, checkResult
+test5 = () ->
+  console.log "Bootloader mode"
+  device.controlTransfer 0x40, 0x68, 0, 0, empty, null
 
-#Open the file
-#Parse the file into array
-#parseInt(,16) for addresses
-#new Buffer for data
-
-#all this in try catch
-console.log "Opening"
-device.open()
-console.log "Opened"
-
-crcCheck (err) ->
-  close("Check failed") if err
-  console.log "Successful"
-  process.exit(0)
-return
-
-console.log "Erasing the device"
-massErase startProgram
-
-startProgram = (err) ->
-  close("Unable to erase flash") if err
-  #set index for array
-  programLoop(null)
-
-programLoop = (err) ->
-  close("Failed during programming") if err
-
-  if index >= code.length
-    console.log "Programming complete             "
-    console.log "Calculating checksum"
-    return crcCheck(endProgram)
-
-  line = code[index]
-  index++
-  process.stdout.write("Writing " + index + "/" + code.length + "\r")
-  program line.start, line.end, line.data, programLoop
-
-endProgram = (err) ->
-  close("CRC check failed") if err
-  "Checksum correct"
-  "Resetting device"
-  reset (err) ->
-    close("Reset failed") if err
-    console.log "Successful"
-    process.exit(0)
-
-
-
+waitDevice()

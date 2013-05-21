@@ -3,6 +3,7 @@ lazy = require 'lazy'
 fs = require 'fs'
 
 data = []
+device = null
 
 ll = new lazy(fs.createReadStream('./S08JS16.s19'))
   .on 'end', () ->
@@ -39,8 +40,8 @@ ll = new lazy(fs.createReadStream('./S08JS16.s19'))
   .forEach (line) ->
     data.push line
 
-code = []
 index = 0
+empty = new Buffer(0)
 
 close = (msg) ->
   console.log msg
@@ -48,10 +49,10 @@ close = (msg) ->
 
 getResult     = (cb) -> device.controlTransfer 0xC0, 0x6F, 0, 0, 1, cb
 program       = (start, length, data, cb) -> device.controlTransfer 0x40, 0x61, start, start+length-1, data, waitCB(cb, 5)
-massErase     = (cb) -> device.controlTransfer 0x40, 0x63, 0, 0, null, waitCB(cb, 150)
-partialErase  = (cb) -> device.controlTransfer 0x40, 0x64, 0, 0, null, waitCB(cb, 700)
-reset         = (cb) -> device.controlTransfer 0x40, 0x68, 0, 0, null, cb
-crcCheck      = (cb) -> device.controlTransfer 0x40, 0x69, 0, 0, null, waitCB(cb, 10)
+massErase     = (cb) -> device.controlTransfer 0x40, 0x63, 0, 0, empty, waitCB(cb, 150)
+partialErase  = (cb) -> device.controlTransfer 0x40, 0x64, 0, 0, empty, waitCB(cb, 700)
+reset         = (cb) -> device.controlTransfer 0x40, 0x68, 0, 0, empty, cb
+crcCheck      = (cb) -> device.controlTransfer 0x40, 0x69, 0, 0, empty, waitCB(cb, 10)
 
 waitCB = (cb, timeout) ->
   checkResult = (err, data) ->
@@ -81,15 +82,15 @@ startProgram = (err) ->
 programLoop = (err) ->
   close("Failed during programming") if err
 
-  if index >= code.length
+  if index >= data.length
     console.log "Programming complete             "
     console.log "Calculating checksum"
     return crcCheck(endProgram)
 
-  line = code[index]
+  line = data[index]
   index++
-  process.stdout.write("Writing " + index + "/" + code.length + "\r")
-  program line.start, line.end, line.data, programLoop
+  process.stdout.write("Writing " + index + "/" + data.length + "\r")
+  program line.address, line.length, line.data, programLoop
 
 endProgram = (err) ->
   close("CRC check failed") if err
