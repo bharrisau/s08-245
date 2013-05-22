@@ -6,8 +6,8 @@ my $device = USB::Descriptor::device(
     'usb_version'       => '1.1.0',         # Default
     'class'             => 0,
     'max_packet_size'   => 8,              # Full speed device
-    'vendorID'          => 0x1d50,
-    'productID'         => 0xAAAA,
+    'vendorID'          => 0x1d50,          # FT2232H is 0403
+    'productID'         => 0xAAAA,          # FT2232H is 6010
     'version'           => '0.1.0',
     'manufacturer'      => 'bharr',
     'product'           => 'S08JS JTAG-Bridge',
@@ -17,15 +17,22 @@ my $device = USB::Descriptor::device(
         'value'             => 1,
         'remote_wakeup'     => 0,
         'self_powered'      => 0,
-        'max_current'       => 500,   # mA need to double for swome reason
-        # 'interfaces'        => [{         #Only EP0
-        #     #'description'       => 'Interface 0',
-        #     'endpoints'         => [{
-        #         'direction'         => 'in',
-        #         'number'            => 1,
-        #         'max_packet_size'   => 42,
-        #     }]
-        # }]
+        'max_current'       => 500,   # mA
+        'interfaces'        => [{
+            #'description'       => 'Interface 0',
+            'endpoints'         => [{
+                'direction'         => 'in',
+                'number'            => 1,
+                'max_packet_size'   => 64,
+                'type'              => 'bulk'
+            },
+            {
+                'direction'         => 'out',
+                'number'            => 2,
+                'max_packet_size'   => 64,
+                'type'              => 'bulk'
+            }]
+        }]
     }]
 );
 
